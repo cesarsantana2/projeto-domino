@@ -16,6 +16,5 @@ printf("5) Regras do Jogo\n");
 printf("6) Sair do Jogo\n\n");
 
 
-
 scanf("%d", &opcao);
 }while(opcao!=6);}
