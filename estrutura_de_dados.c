@@ -31,28 +31,36 @@ int main()
 {
     int op;
 
+    do{
+    printf("\n\n");
     printf("  ･ﾟ･･ﾟ･ DOMINÓ GCCT ･ﾟ･･ﾟ･  \n");
     printf("Selecione sua opcao:\n");
     printf("1. Mostrar peças\n");
     printf("2. Embaralhar peças\n");
     printf("3. Organizar peças\n");
-    printf("4. Sair do jogo\n");
-    scanf("%d\n", &op);
+    printf("4. Sair do jogo\n\n");
+    scanf("%d", &op);
 
     switch (op)
     {
     case 1:
         montapecas();
         mostrapecas();
+        printf("\n\n");
+        break;
     case 2:
         embaralhapecas();
         mostrapecas();
+        printf("\n\n");
+        break;
     case 3:
         montapecas();
         mostrapecas();
+        printf("\n\n");
+        break;
     case 4:
         exit(0);
-    }
+    }}while(op!=4);
 }
 
 void embaralhapecas()
