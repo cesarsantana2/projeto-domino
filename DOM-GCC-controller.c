@@ -1,6 +1,4 @@
-#include "DOM-GCC-Main.c"
-#include "DOM-GCC-Model.c"
-#include "DOM-GCC-View.c"
+#include "DOM-GCC-main.c"
 
 //Função que cria um conjunto de peças ordenadas de maneira crescente
 Conjunto_de_pecas cria_conjunto_de_pecas ()

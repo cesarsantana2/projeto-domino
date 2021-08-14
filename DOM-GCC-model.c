@@ -1,13 +1,9 @@
-#include "DOM-GCC-Main.c"
-#include <stdio.h>
-#include <stdlib.h>
-
 //Estrutura de uma Peca
-typedef struct {
+struct Peca{
     int valores [2];
-}Peca;
+};
 
 //Estrutura de um conjunto de peças
-typedef struct   {
+ struct Conjunto_de_pecas {
     Peca pecas[28];
-}Conjunto_de_pecas;
+};
