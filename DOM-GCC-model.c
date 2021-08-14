@@ -3,11 +3,11 @@
 #include <stdlib.h>
 
 //Estrutura de uma Peca
-struct Peca {
+typedef struct {
     int valores [2];
-};
+}Peca;
 
 //Estrutura de um conjunto de peças
-struct conjunto_de_pecas  {
+typedef struct   {
     Peca pecas[28];
-};
+}Conjunto_de_pecas;

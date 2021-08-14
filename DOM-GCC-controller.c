@@ -3,7 +3,7 @@
 #include "DOM-GCC-View.c"
 
 //Função que cria um conjunto de peças ordenadas de maneira crescente
-void cria_conjunto_de_pecas (struct conjunto_de_pecas *pecas)
+Conjunto_de_pecas cria_conjunto_de_pecas ()
 {
     int i = 0, j = 0, count = 0;
         for(i; i < 7; i++){
@@ -14,3 +14,5 @@ void cria_conjunto_de_pecas (struct conjunto_de_pecas *pecas)
             }
         }
 }
+
+//TODO FUNÇÃO PARA EMBARALHAR PEÇAS

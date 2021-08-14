@@ -1,13 +1,16 @@
-#include "DOM-GCC-Main.c"
+#include "DOM-GCC-main.c"
 #include <stdio.h>
 #include <stdlib.h>
 
 //função de apresentação das peças
-void mostrapecas()
+void mostra_pecas(struct peca *pecas)
 {
     for (i = 0; i < 28; i++)
     {
-        printf("[%d | %d]\n", peças[i].lado1, peças[i].lado2);
+        printf("[%d | %d]\n", pecas[i].lado[0], peças[i].lado[1]);
         fflush(stdout);
     }
 }
+
+
+//TODO FUNÇÃO PARA EXIBIR O MENU
