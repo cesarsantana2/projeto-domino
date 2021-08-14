@@ -1,9 +1,9 @@
 //Estrutura de uma Peca
-struct Peca{
-    int valores [2];
-};
+typedef struct{
+    int valores[2];
+}Peca;
 
 //Estrutura de um conjunto de peças
- struct Conjunto_de_pecas {
+ typedef struct{
     Peca pecas[28];
-};
+}Conjunto_de_pecas;
