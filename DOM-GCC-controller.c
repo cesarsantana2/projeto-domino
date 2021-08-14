@@ -1,41 +1,16 @@
-//#include "DOM-GCC-Main.c"
+#include "DOM-GCC-Main.c"
 #include "DOM-GCC-Model.c"
 #include "DOM-GCC-View.c"
 
-//função para embaralhar as peças
-void embaralhapecas()
+//Função que cria um conjunto de peças ordenadas de maneira crescente
+void cria_conjunto_de_pecas (struct conjunto_de_pecas *pecas)
 {
-    srand((unsigned) time(NULL));
-    for (pc1; pc1 < n; pc1++)
-    {
-        for (pc2 = pc1; pc2 < n; pc2++)
-        {
-            fflush(stdout);
-            int ale = rand()%28;
-
-            peças[ale].lado1 = auxiliar[ale].aux1;
-            peças[x].lado1 = peças[ale].lado1;
-            auxiliar[ale].aux1 = peças[x].lado1;
-            peças[ale].lado2 = auxiliar[ale].aux2;
-            peças[x].lado2 = peças[ale].lado2;
-            auxiliar[ale].aux2 = peças[x].lado2;
-            x++;
+    int i = 0, j = 0, count = 0;
+        for(i; i < 7; i++){
+            for (j; j < 7, j++){
+                pecas[count].valores[0] = i;
+                pecas.valores[1] = j;
+                count++
+            }
         }
-        pc2 = pc1;
-    }
-}
-
-//função que cria as 28 peças do dominó
-void montapecas()
-{
-    for (pc1; pc1 < n; pc1++)
-    {
-        for (pc2 = pc1; pc2 < n; pc2++)
-        {
-            peças[x].lado1 = pc1;
-            peças[x].lado2 = pc2;
-            x++;
-        }
-        pc2 = pc1;
-    }
 }
