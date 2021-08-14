@@ -3,7 +3,7 @@ typedef struct{
     int valores[2];
 }Peca;
 
-//Estrutura de um conjunto de peças
- typedef struct{
-    Peca pecas[28];
-}Conjunto_de_pecas;
+// //Estrutura de um conjunto de peças
+//  typedef struct{
+//     Peca pecas[28];
+// }Conjunto_de_pecas;
