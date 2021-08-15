@@ -1,6 +1,41 @@
 #include "DOM-GCC-model.c"
+#include "DOM-GCC-view.c"
 
-//Função que cria um conjunto de peças ordenadas de maneira crescente
+//Prototype das funcoes do controller
+void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
+void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]);
+void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]);
+
+
+//Funcao que chama o menu principal
+void inicia_jogo(){
+    
+    int opcao = 0;
+    while(opcao != 4){
+        opcao = apresenta_menu();
+        Peca pecas_do_jogo[28];
+        cria_conjunto_de_pecas(pecas_do_jogo);
+
+        switch (opcao)
+        {
+        case 1:
+            mostra_pecas(pecas_do_jogo);
+            break;
+        case 2:
+            embaralha_conjunto_de_pecas(pecas_do_jogo);
+            mostra_pecas(pecas_do_jogo);
+            break;
+        case 3:
+            reorganiza_conjunto_de_pecas(pecas_do_jogo);
+            mostra_pecas(pecas_do_jogo);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+//Funcao que cria um conjunto de peças ordenadas de maneira crescente
 void cria_conjunto_de_pecas (Peca pecas_do_jogo[28])
 {
     int i = 0;

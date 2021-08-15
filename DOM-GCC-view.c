@@ -10,11 +10,10 @@ void mostra_pecas(Peca pecas_do_jogo[28])
 }
 
 //Função do menu principal
-void menu_principal(){
+int apresenta_menu(){
 
     int opcao = 0;
 
-    while(opcao != 4){
         puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
         puts("Escolha uma opcao abaixo:\n");
         puts("1 - Mostrar pecas do jogo");
@@ -23,5 +22,5 @@ void menu_principal(){
         puts("4 - Sair do jogo\n");
 
         scanf("%d", &opcao);
-    }
+        return opcao;
 }
