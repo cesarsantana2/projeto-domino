@@ -1,41 +1,81 @@
-//#include "DOM-GCC-Main.c"
-#include "DOM-GCC-Model.c"
-#include "DOM-GCC-View.c"
+#include "DOM-GCC-model.c"
+#include "DOM-GCC-view.c"
 
-//função para embaralhar as peças
-void embaralhapecas()
-{
-    srand((unsigned) time(NULL));
-    for (pc1; pc1 < n; pc1++)
-    {
-        for (pc2 = pc1; pc2 < n; pc2++)
+//Prototype das funcoes do controller
+void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
+void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]);
+void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]);
+
+
+//Funcao que chama o menu principal
+void inicia_jogo(){
+    
+    int opcao = 0;
+    while(opcao != 4){
+        opcao = apresenta_menu();
+        Peca pecas_do_jogo[28];
+        cria_conjunto_de_pecas(pecas_do_jogo);
+
+        switch (opcao)
         {
-            fflush(stdout);
-            int ale = rand()%28;
-
-            peças[ale].lado1 = auxiliar[ale].aux1;
-            peças[x].lado1 = peças[ale].lado1;
-            auxiliar[ale].aux1 = peças[x].lado1;
-            peças[ale].lado2 = auxiliar[ale].aux2;
-            peças[x].lado2 = peças[ale].lado2;
-            auxiliar[ale].aux2 = peças[x].lado2;
-            x++;
+        case 1:
+            mostra_pecas(pecas_do_jogo);
+            break;
+        case 2:
+            embaralha_conjunto_de_pecas(pecas_do_jogo);
+            mostra_pecas(pecas_do_jogo);
+            break;
+        case 3:
+            reorganiza_conjunto_de_pecas(pecas_do_jogo);
+            mostra_pecas(pecas_do_jogo);
+            break;
+        default:
+            break;
         }
-        pc2 = pc1;
     }
 }
 
-//função que cria as 28 peças do dominó
-void montapecas()
+//Funcao que cria um conjunto de peças ordenadas de maneira crescente
+void cria_conjunto_de_pecas (Peca pecas_do_jogo[28])
 {
-    for (pc1; pc1 < n; pc1++)
-    {
-        for (pc2 = pc1; pc2 < n; pc2++)
-        {
-            peças[x].lado1 = pc1;
-            peças[x].lado2 = pc2;
-            x++;
-        }
-        pc2 = pc1;
+    int i = 0;
+    int j = 0;
+    int count = 0;
+
+        for(i = 0; i < 7; i++){
+            for (j = i; j < 7; j++){
+                pecas_do_jogo[count].valores[0] = i;
+                pecas_do_jogo[count].valores[1] = j;
+                count++;
+            }
+        } 
+    count = 0;
+}
+
+//Função que embaralha as pecas de um conjunto
+void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
+{
+    Peca pecas_aux[28];
+
+      for (int i = 0; i < 28; i++){
+        int k = rand() % 28;
+        int j = rand() % 28;
+
+        //Aqui nos usamos estrategia de swap para a permutacao dos elementos
+        pecas_aux[i] = pecas_do_jogo[k];
+        pecas_do_jogo[k] = pecas_do_jogo [j];
+        pecas_do_jogo[j] = pecas_aux[i]; 
+    }
+}
+
+//Função que reorganiza as pecas de um conjunto
+void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
+{
+    int i;
+    Peca pecas_aux[28];
+    cria_conjunto_de_pecas(pecas_aux);
+    
+    for (i = 0; i < 28; i++){
+        pecas_do_jogo[i] = pecas_aux[i];
     }
 }
