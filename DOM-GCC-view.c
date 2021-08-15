@@ -1,4 +1,4 @@
-//função de apresentação das peças
+//Função de apresentação das peças
 void mostra_pecas(Peca pecas_do_jogo[28])
 {
     for (int i = 0; i < 28; i++)
@@ -7,13 +7,19 @@ void mostra_pecas(Peca pecas_do_jogo[28])
     }
 }
 
-//TODO FUNÇÃO PARA EXIBIR O MENU
-
+//Função do menu principal
 void menu_principal(){
 
-    int i = 0;
+    int opcao = 0;
 
-    printf("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---");
-
-
+    while(opcao != 4){
+        puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
+        puts("Escolha uma opcao abaixo:\n");
+        puts("1 - Mostrar pecas do jogo");
+        puts("2 - Embaralhar pecas do jogo");
+        puts("3 - Reorganizar pecas para novo jogo");
+        puts("4 - Sair do jogo\n");
+        
+        scanf("%d", &opcao);
+    }
 }

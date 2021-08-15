@@ -26,6 +26,7 @@ void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
         int k = rand() % 28;
         int j = rand() % 28;
 
+        //Aqui nos usamos estrategia de swap para a permutacao dos elementos
         pecas_aux[i] = pecas_do_jogo[k];
         pecas_do_jogo[k] = pecas_do_jogo [j];
         pecas_do_jogo[j] = pecas_aux[i]; 
