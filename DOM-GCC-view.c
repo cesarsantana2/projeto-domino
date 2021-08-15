@@ -1,3 +1,5 @@
+//Esse arquivo até o momento nao precisa fazer imports
+
 //Função de apresentação das peças
 void mostra_pecas(Peca pecas_do_jogo[28])
 {
@@ -19,7 +21,7 @@ void menu_principal(){
         puts("2 - Embaralhar pecas do jogo");
         puts("3 - Reorganizar pecas para novo jogo");
         puts("4 - Sair do jogo\n");
-        
+
         scanf("%d", &opcao);
     }
 }

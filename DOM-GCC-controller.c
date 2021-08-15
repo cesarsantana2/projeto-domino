@@ -17,7 +17,7 @@ void cria_conjunto_de_pecas (Peca pecas_do_jogo[28])
     count = 0;
 }
 
-// //Função que embaralha as pecas de um conjunto
+//Função que embaralha as pecas de um conjunto
 void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
 {
     Peca pecas_aux[28];
@@ -30,5 +30,17 @@ void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
         pecas_aux[i] = pecas_do_jogo[k];
         pecas_do_jogo[k] = pecas_do_jogo [j];
         pecas_do_jogo[j] = pecas_aux[i]; 
+    }
+}
+
+//Função que reorganiza as pecas de um conjunto
+void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
+{
+    int i;
+    Peca pecas_aux[28];
+    cria_conjunto_de_pecas(pecas_aux);
+    
+    for (i = 0; i < 28; i++){
+        pecas_do_jogo[i] = pecas_aux[i];
     }
 }
