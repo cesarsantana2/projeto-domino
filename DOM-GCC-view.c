@@ -19,7 +19,8 @@ int apresenta_menu(){
         puts("1 - Mostrar pecas do jogo");
         puts("2 - Embaralhar pecas do jogo");
         puts("3 - Reorganizar pecas para novo jogo");
-        puts("4 - Sair do jogo\n");
+        puts("4 - Iniciar jogo");
+        puts("5 - Sair do jogo\n");
 
         scanf("%d", &opcao);
         return opcao;
