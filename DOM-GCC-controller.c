@@ -5,13 +5,14 @@
 void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
 void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]);
 void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]);
+void cria_mesa(Mesa estrutura_mesa[28]);
 
 
 //Funcao que chama o menu principal
 void inicia_jogo(){
     
     int opcao = 0;
-    while(opcao != 4){
+    while(opcao != 5){
         opcao = apresenta_menu();
         Peca pecas_do_jogo[28];
         cria_conjunto_de_pecas(pecas_do_jogo);
@@ -29,6 +30,11 @@ void inicia_jogo(){
             reorganiza_conjunto_de_pecas(pecas_do_jogo);
             mostra_pecas(pecas_do_jogo);
             break;
+        case 4:
+            //Pergunta quantos jogadores
+            //monta_mesa();
+            //distribui_pecas();
+            //inicia_jogo();
         default:
             break;
         }
@@ -78,4 +84,48 @@ void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
     for (i = 0; i < 28; i++){
         pecas_do_jogo[i] = pecas_aux[i];
     }
+}
+
+
+//Função que cria e organiza a mesa
+void cria_mesa(Mesa estrutura_mesa[28])
+{
+    Mesa estrutura_mesa[28];
+    int count = 0;
+    for(int i = 0; i < 7; i++){
+        for (int j = i; j < 7; j++){
+            estrutura_mesa[count].valores[0] = 0;
+            estrutura_mesa[count].valores[1] = 0;
+            count++;
+        }
+    } 
+}
+
+//Função que distribui peças aleatoriamente para o jogador
+void distribui_pecas_rand(Peca pecas_do_jogo[28])
+{
+
+}
+
+//inicia jogo
+void jogar()
+{
+    int qtd_jogadores;
+    printf("Digite a quantidade de jogadores ");
+    printf("(1 para jogar com a máquina, 2 para jogar com outra pessoa): ");
+    scanf("%d", &qtd_jogadores);
+
+    cria_mesa(estrutura_mesa);
+
+    if((qtd_jogadores != 1) && (qtd_jogadores != 2))
+        exit(0);
+    else 
+        if (qtd_jogadores = 1){
+            distribui_pecas_rand(Peca pecas_do_jogo[28]);
+            cria_mesa(Mesa estrutura_mesa[28]);
+        }
+        else{
+            distribui_pecas_rand(Peca pecas_do_jogo[28]);
+            cria_mesa(Mesa estrutura_mesa[28]);
+        }
 }
