@@ -1,5 +1,8 @@
 #include "DOM-GCC-model.c"
 #include "DOM-GCC-view.c"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 //Prototype das funcoes do controller
 void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
@@ -12,7 +15,7 @@ void cria_mesa(Mesa estrutura_mesa[28]);
 void inicia_jogo(){
     
     int opcao = 0;
-    while(opcao != 5){
+    while(opcao != 6){
         opcao = apresenta_menu();
         Peca pecas_do_jogo[28];
         cria_conjunto_de_pecas(pecas_do_jogo);
@@ -31,12 +34,17 @@ void inicia_jogo(){
             mostra_pecas(pecas_do_jogo);
             break;
         case 4:
+            //Jogo com 2 jogadores
             //Pergunta quantos jogadores
             //monta_mesa();
             //distribui_pecas();
             //inicia_jogo();
-        default:
             break;
+        case 5:
+            //jogo contra o computador
+            break;
+        default:
+            exit(0);
         }
     }
 }
@@ -91,41 +99,76 @@ void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
 void cria_mesa(Mesa estrutura_mesa[28])
 {
     Mesa estrutura_mesa[28];
+    int i = 0;
+    int j = 0;
     int count = 0;
-    for(int i = 0; i < 7; i++){
-        for (int j = i; j < 7; j++){
-            estrutura_mesa[count].valores[0] = 0;
-            estrutura_mesa[count].valores[1] = 0;
-            count++;
-        }
-    } 
+
+        for(i = 0; i < 7; i++){
+            for (j = i; j < 7; j++){
+                estrutura_mesa[count].status = 'NULL';
+                estrutura_mesa[count].status = 'NULL';
+                count++;
+            }
+        } 
+    count = 0;
 }
 
-//Função que distribui peças aleatoriamente para o jogador
+//Função que distribui peças aleatoriamente para o jogador 1, jogador 2 e para a estrutura de compra (C)
 void distribui_pecas_rand(Peca pecas_do_jogo[28])
 {
+    embaralha_conjunto_de_pecas(pecas_do_jogo);
+    srand((unsigned) time(NULL));
+    int ale;
 
+    for (int i = 0; i < 7; i++)
+    {
+        ale = rand()%28;
+        printf("%d\n", ale);
+        pecas_do_jogo[ale].status = 'J1';
+    }
+
+    for (int i = 0; i < 7; i++)
+    {
+        ale = rand()%28;
+        printf("%d\n", ale);
+        pecas_do_jogo[ale].status = 'J2';
+    }
+
+    for (int i = 0; i < 13; i++)
+    {
+        ale = rand()%28;
+        printf("%d\n", ale);
+        pecas_do_jogo[ale].status = 'C';
+    }
 }
 
-//inicia jogo
-void jogar()
+//Função que passa três primeiras peças da estrutura de compra para o jogador 1 ou 2 
+void comprar_pecas(Peca pecas_do_jogo[28])
 {
-    int qtd_jogadores;
-    printf("Digite a quantidade de jogadores ");
-    printf("(1 para jogar com a máquina, 2 para jogar com outra pessoa): ");
-    scanf("%d", &qtd_jogadores);
+    char jog;
+    printf("Identifique o jogador (J1 ou J2): ");
+    scanf("%c\n", &jog);
+    jog = toupper(jog);
 
-    cria_mesa(estrutura_mesa);
+    for (int i = 0; i < 2; i++) 
+    {
+        if (pecas_do_jogo[i].status == 'C') {
+            pecas_do_jogo[i].status = jog;
+            i = 28;
+        }
+    }
+}
 
-    if((qtd_jogadores != 1) && (qtd_jogadores != 2))
-        exit(0);
-    else 
-        if (qtd_jogadores = 1){
-            distribui_pecas_rand(Peca pecas_do_jogo[28]);
-            cria_mesa(Mesa estrutura_mesa[28]);
-        }
-        else{
-            distribui_pecas_rand(Peca pecas_do_jogo[28]);
-            cria_mesa(Mesa estrutura_mesa[28]);
-        }
+void primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
+{
+    for (int i = 0; i < 27; i++)
+    {
+        if(((pecas_do_jogo[i].valores[0] == 6) && (pecas_do_jogo[i].valores[1] == 6)))
+            {
+                estrutura_mesa[14].valores[0] = 6;
+                estrutura_mesa[14].valores[1] = 6;
+                pecas_do_jogo[i].status = 'NULL';
+            }
+    }
+    
 }
