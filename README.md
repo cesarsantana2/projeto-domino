@@ -5,7 +5,6 @@
 * César Santana 
 * Caio Engler
 * Gabriel Cavalcanti 
-* Thiago Paternes
 
 ## Disciplina
 
