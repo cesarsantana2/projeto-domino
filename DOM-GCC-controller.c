@@ -34,11 +34,10 @@ void inicia_jogo(){
             mostra_pecas(pecas_do_jogo);
             break;
         case 4:
-            //Jogo com 2 jogadores
-            //Pergunta quantos jogadores
-            //monta_mesa();
-            //distribui_pecas();
-            //inicia_jogo();
+            cria_conjunto_de_pecas(pecas_do_jogo);
+            cria_mesa(pecas_do_jogo);
+            distribui_pecas_rand(pecas_do_jogo);
+            primeira_jogada(pecas_do_jogo, estrutura_mesa);
             break;
         case 5:
             //jogo contra o computador
@@ -50,7 +49,7 @@ void inicia_jogo(){
 }
 
 //Funcao que cria um conjunto de peças ordenadas de maneira crescente
-void cria_conjunto_de_pecas (Peca pecas_do_jogo[28])
+void cria_conjunto_de_pecas(Peca pecas_do_jogo[28])
 {
     int i = 0;
     int j = 0;
@@ -143,24 +142,31 @@ void distribui_pecas_rand(Peca pecas_do_jogo[28])
 }
 
 //Função que passa três primeiras peças da estrutura de compra para o jogador 1 ou 2 
-void comprar_pecas(Peca pecas_do_jogo[28])
+int comprar_pecas(Peca pecas_do_jogo[28])
 {
     char jog;
     printf("Identifique o jogador (J1 ou J2): ");
     scanf("%c\n", &jog);
     jog = toupper(jog);
 
-    for (int i = 0; i < 2; i++) 
+    do
     {
+        for (int i = 0; i < 2; i++) 
+        {
         if (pecas_do_jogo[i].status == 'C') {
             pecas_do_jogo[i].status = jog;
             i = 28;
         }
-    }
+        }
+        printf("\n3 peças compradas com sucesso para %c.\n\n", jog);
+    } while ((jog == 'J1') || (jog == 'J2'));
+
+    //Necessário fazer adaptação: reentrada caso o usuário não digite j1 ou j2.
 }
 
 void primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
 {
+    int identidade;
     for (int i = 0; i < 27; i++)
     {
         if(((pecas_do_jogo[i].valores[0] == 6) && (pecas_do_jogo[i].valores[1] == 6)))
@@ -168,7 +174,25 @@ void primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
                 estrutura_mesa[14].valores[0] = 6;
                 estrutura_mesa[14].valores[1] = 6;
                 pecas_do_jogo[i].status = 'NULL';
+                identidade = i;
             }
+    }
+    mostra_mesa(estrutura_mesa);
+}
+
+//Função que dá fluidez ao jogo
+//NÃO FINALIZADA
+void jogo()
+{
+    int op;
+    while (op != 0)
+    {
+        printf("1 - Jogar\n");
+        printf("2 - Comprar\n");
+        printf("3 - Passar\n");
+        printf("0 - Sair\n");
+        printf("Digite sua opção: ");
+        scanf("%d", op);
     }
     
 }
