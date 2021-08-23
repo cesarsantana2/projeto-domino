@@ -141,7 +141,7 @@ void distribui_pecas_rand(Peca pecas_do_jogo[28])
         pecas_do_jogo[ale].status = "C";
     }
 }
-
+//to-do analisar funcao de compra de peças
 //Função que passa três primeiras peças da estrutura de compra para o jogador 1 ou 2 
 void comprar_pecas(Peca pecas_do_jogo[28])
 {
@@ -154,17 +154,18 @@ void comprar_pecas(Peca pecas_do_jogo[28])
     {
         for (int i = 0; i < 2; i++) 
         {
-        if (pecas_do_jogo[i].status == 'C') {
-            pecas_do_jogo[i].status = jog;
-            i = 28;
-        }
+            if (pecas_do_jogo[i].status == 'C') {
+                pecas_do_jogo[i].status = jog;
+                i = 28;
+            }
         }
         printf("\n3 peças compradas com sucesso para %c.\n\n", jog);
     } while ((jog == "J1") || (jog == "J2"));
 
     //Necessário fazer adaptação: reentrada caso o usuário não digite j1 ou j2.
 }
-
+//to-do analisar estrutura de primeira jogada
+//como fazer para identificar os maiores valores e onde estao
 char primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
 {
     int identidade;
@@ -172,6 +173,7 @@ char primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
     {
         if((pecas_do_jogo[i].valores[0] == 6) && (pecas_do_jogo[i].valores[1] == 6))
             {
+                //to-do analisar atribuicoes
                 estrutura_mesa[14].valores[0] = 6;
                 estrutura_mesa[14].valores[1] = 6;
                 pecas_do_jogo[i].status = identidade;
@@ -182,6 +184,7 @@ char primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
     return identidade;
 }
 
+//Funcao que inverte a peca do jogo
 void giragira(int id, Peca pecas_do_jogo[28])
 {
     int aux;
@@ -211,7 +214,10 @@ void jogada()
 
     do
     {
-    
+        //to-do mover essa instrucao para a view
+        //to-do criar logica de encaixe de peca na mesa
+        //to-do criar logica generica para fluxo de selecao de jogador durante a partida (D e E)
+
         printf("1 - Jogar\n");
         printf("2 - Comprar\n");
         printf("3 - Passar\n");
@@ -230,6 +236,7 @@ void jogada()
                 apresenta_jogador_2(pecas_do_jogo);
                 printf("Escolha a peça para jogar: \n");
                 scanf("%d\n", &indexpeca);
+                //to-do pensar na logica para mesa virar peca automaticamente
                 printf("Deseja girar a peca? (S/N): \n");
                 scanf("%d\n", &simnao);
                 simnao = toupper(simnao);
@@ -239,11 +246,12 @@ void jogada()
                     giragira(indexpeca, pecas_do_jogo);
                 }
                 
-
+                //to-do estudar maneira de identificar em qual extremidade a peca sera inserida de maneira automatica
+                //to-do criar logica que identificar a necessidade de inverter a peca automaticamente
                 printf("Escolha o lado da mesa (D ou E): \n");
                 scanf("%c\n", &indexmesa);
                 indexmesa = toupper(indexmesa);
-
+                
                 if (indexmesa == 'D')
                 {
                     estrutura_mesa[indexpeca].valores[0] = pecas_do_jogo[indexpeca].valores[0];
