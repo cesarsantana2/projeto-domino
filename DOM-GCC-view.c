@@ -20,7 +20,7 @@ void mostra_mesa(Mesa estrutura_mesa[28])
         else
             printf("[%d | %d]       ", pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
     }
-    printf("__________________\n");
+    printf("\n__________________\n");
 }
 
 //Função do menu principal
@@ -55,17 +55,19 @@ void apresenta_jogador_1(Peca pecas_do_jogo[28])
             printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
         }
     }
+    printf("\n\n");
 }
 
 //Função de apresentação das peças do Jogador 2
 void apresenta_jogador_2(Peca pecas_do_jogo[28])
 {
-    printf("Peças do jogador 1: ");
+    printf("Peças do jogador 2: ");
     for (int i = 0; i < 27; i++)
     {
         if(pecas_do_jogo[i].status == 'J2')
         {
-            printf("&d.[%d | %d]        ", pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
+            printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
         }
     }
+    printf("\n\n");
 }

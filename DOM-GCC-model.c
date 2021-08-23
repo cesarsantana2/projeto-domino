@@ -14,7 +14,3 @@ typedef struct{
     int valores[2];
     char status; //NULL, '1', '2', '3', '4'
 }Mesa;
-
-Peca pecas_do_jogo[28];
-Peca pecas_aux[28];
-Mesa estrutura_mesa[28];
