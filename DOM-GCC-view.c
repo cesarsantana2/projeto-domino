@@ -41,30 +41,35 @@ int apresenta_menu(){
         return opcao;
 }
 
+
+int submenu_jogo()
+{
+    int op;
+    printf("1 - Jogar\n");
+    printf("2 - Comprar\n");
+    printf("3 - Passar\n");
+    printf("0 - Sair\n");
+    printf("Digite sua opção: ");
+    scanf("%d\n", &op);
+
+    return op;
+}
+
 //!! !! ENCONTRAR JEITO DE ABSTRAIR O USO DAS DUAS SEGUINTES FUNÇÕES !! !!
 //Se a última jogada foi do jogador 1, mostrar as peças do jogador 2 e prosseguir o jogo;
 //Se a última jogada foi do jogador 2, mostrar as peças do jogador 1 e prosseguir o jogo;
-//Função de apresentação das peças do Jogador 1
-void apresenta_jogador_1(Peca pecas_do_jogo[28])
+void apresenta_jogador(int vez, Peca pecas_do_jogo[28])
 {
-    printf("Peças do jogador 1: ");
+    char id;
+    if (vez == 1)
+        id = J1;
+    else
+        id = J2;
+    
+    printf("Peças do jogador %c: ", id);
     for (int i = 0; i < 27; i++)
     {
-        if(pecas_do_jogo[i].status == 'J1')
-        {
-            printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
-        }
-    }
-    printf("\n\n");
-}
-
-//Função de apresentação das peças do Jogador 2
-void apresenta_jogador_2(Peca pecas_do_jogo[28])
-{
-    printf("Peças do jogador 2: ");
-    for (int i = 0; i < 27; i++)
-    {
-        if(pecas_do_jogo[i].status == 'J2')
+        if(pecas_do_jogo[i].status == id)
         {
             printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
         }
