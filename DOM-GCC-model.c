@@ -15,6 +15,7 @@ typedef struct{
     char status; //NULL, '1', '2', '3', '4'
 }Mesa;
 
+
 //Variáveis globais
 char J1 = 'J1';
 char J2 = 'J2';
