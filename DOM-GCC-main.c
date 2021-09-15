@@ -7,9 +7,6 @@ AUTORES: CAIO ENGLER
          CESAR SANTANA
          GABRIEL CAVALCANTI
 */
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "DOM-GCC-controller.c"
@@ -17,5 +14,5 @@ AUTORES: CAIO ENGLER
 
 int main()
 {
-    inicia_jogo();
+    entrypoint();
 }

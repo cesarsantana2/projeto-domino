@@ -1,48 +1,55 @@
 #include "DOM-GCC-model.c"
 #include "DOM-GCC-view.c"
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 
-Peca pecas_do_jogo[28];
-Peca pecas_aux[28];
-Mesa estrutura_mesa[28];
+//Variáveis globais
+int quantidade_de_jogadores = 0;
+int quantidade_de_pecas_jogadas = 0;
 
 //Prototype das funcoes do controller
 void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
 void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]);
 void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]);
-void cria_mesa(Mesa estrutura_mesa[28]);
+void distribui_pecas(Peca pecas_do_jogo[28]);
+void cria_mesa_do_jogo(Mesa estrutura_mesa[28]);
+void novo_jogo();
+void comeca_jogo(char a);
+void joga_primeira_peca(Peca pecas_do_jogo[28], int indice_da_peca);
+void joga_peca(Mesa mesa_do_jogo, int indice_da_peca);
+void insere_peca_no_comeco(Mesa mesa_do_jogo, int indice_da_peca);
+void passa_a_jogada(Mesa mesa_do_jogo, char segundo_jogador);
+void compra_peca (Mesa mesa_do_jogo);
+bool verificacao_de_batida(Mesa mesa_do_jogo);
+bool verificacao_de_empate(Mesa mesa_do_jogo);
+bool verificacao_necessidade_de_compra(Mesa mesa_do_jogo);
+bool peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada);
+
 
 
 //Funcao que chama o menu principal
-void inicia_jogo(){
+void entrypoint(){
     
     int opcao = 0;
     while(opcao != 6){
-        opcao = apresenta_menu();
-        Peca pecas_do_jogo[28];
-        cria_conjunto_de_pecas(pecas_do_jogo);
-        cria_mesa(pecas_do_jogo);
+        
+        opcao = apresenta_menu_principal();
 
         switch (opcao)
         {
         case 1:
-            mostra_pecas(pecas_do_jogo);
+            novo_jogo();
             break;
         case 2:
-            embaralha_conjunto_de_pecas(pecas_do_jogo);
-            mostra_pecas(pecas_do_jogo);
+            print("Continuar a Jogar -- Esta Funcao sera implementada futuramente");
             break;
         case 3:
-            reorganiza_conjunto_de_pecas(pecas_do_jogo);
-            mostra_pecas(pecas_do_jogo);
+            print("Salvar Jogo -- Esta Funcao sera implementada futuramente");
             break;
         case 4:
-            distribui_pecas_rand(pecas_do_jogo);
+            print("Carregar Jogo -- Esta Funcao sera implementada futuramente");
             break;
         case 5:
-            //jogo contra o computador
+            print("Regras do Jogo -- Esta Funcao sera implementada futuramente");
             break;
         default:
             exit(0);
@@ -50,9 +57,42 @@ void inicia_jogo(){
     }
 }
 
+//Funcao que cria a base de um novo jogo
+void novo_jogo(){
+    
+    quantidade_de_jogadores = apresenta_menu_quantidade_jogadores();
+
+    if (quantidade_de_jogadores = 1){
+        comeca_jogo('C');
+    } else {
+        comeca_jogo('2');
+    }
+}
+
+
+//Funcao que cuida do jogo em si
+void comeca_jogo(char segundo_jogador){
+
+    //Cria mesa do jogo
+    Mesa mesa_do_jogo;
+
+    //Embaralha as pecas da mesa
+    embaralha_conjunto_de_pecas(mesa_do_jogo.pecas);
+    
+    //Distribui as pecas do jogo
+    distribui_pecas(mesa_do_jogo.pecas, segundo_jogador);
+
+    //Identifica maior peca e executa primeira jogada usando-a
+    indice_primeira_peca = identifica_index_da_maior_peca(mesa_do_jogo.pecas);
+    joga_primeira_peca(mesa_do_jogo, indice_primeira_peca);
+
+    
+    
+}
+
+
 //Funcao que cria um conjunto de peças ordenadas de maneira crescente
-void cria_conjunto_de_pecas(Peca pecas_do_jogo[28])
-{
+void cria_conjunto_de_pecas(Peca pecas_do_jogo[28]){
     int i = 0;
     int j = 0;
     int count = 0;
@@ -68,8 +108,7 @@ void cria_conjunto_de_pecas(Peca pecas_do_jogo[28])
 }
 
 //Função que embaralha as pecas de um conjunto
-void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
-{
+void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]){
     Peca pecas_aux[28];
 
       for (int i = 0; i < 28; i++){
@@ -84,8 +123,8 @@ void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28])
 }
 
 //Função que reorganiza as pecas de um conjunto
-void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
-{
+void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]){
+    
     int i;
     Peca pecas_aux[28];
     cria_conjunto_de_pecas(pecas_aux);
@@ -95,223 +134,201 @@ void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28])
     }
 }
 
+//Função que distribui as pecas entre os jogadores
+void distribui_pecas(Peca pecas_do_jogo[28], char segundo_jogador){
 
-//Função que cria e organiza a mesa
-void cria_mesa(Mesa estrutura_mesa[28])
-{
-    int i = 0;
-    int j = 0;
-    int count = 0;
+    int i;
 
-        for(i = 0; i < 7; i++){
-            for (j = i; j < 7; j++){
-                estrutura_mesa[count].status = "NULL";
-                estrutura_mesa[count].status = "NULL";
-                count++;
-            }
-        } 
-    count = 0;
-}
-
-//Função que distribui peças aleatoriamente para o jogador 1, jogador 2 e para a estrutura de compra (C)
-void distribui_pecas_rand(Peca pecas_do_jogo[28])
-{
-    embaralha_conjunto_de_pecas(pecas_do_jogo);
-    srand((unsigned) time(NULL));
-    int ale;
-
-    for (int i = 0; i < 7; i++)
-    {
-        ale = rand()%28;
-        printf("%d\n", ale);
-        pecas_do_jogo[ale].status = "J1";
-    }
-
-    for (int i = 0; i < 7; i++)
-    {
-        ale = rand()%28;
-        printf("%d\n", ale);
-        pecas_do_jogo[ale].status = "J2";
-    }
-
-    for (int i = 0; i < 13; i++)
-    {
-        ale = rand()%28;
-        printf("%d\n", ale);
-        pecas_do_jogo[ale].status = "C";
+    for(i = 0; i < 28; i++){
+        if(i < 6){
+            pecas_do_jogo[i].status = '1';
+        }else if(i > 5 && i < 12 ){
+            pecas_do_jogo[i].status = segundo_jogador;
+        }else{
+            pecas_do_jogo[i].status = 'N'
+        }
     }
 }
-//to-do analisar funcao de compra de peças
-//Função que passa três primeiras peças da estrutura de compra para o jogador 1 ou 2 
-void comprar_pecas(Peca pecas_do_jogo[28])
-{
-    char jog;
-    printf("Identifique o jogador (J1 ou J2): ");
-    scanf("%c\n", &jog);
-    jog = toupper(jog);
 
-    do
-    {
-        for (int i = 0; i < 2; i++) 
-        {
-            if (pecas_do_jogo[i].status == 'C') {
-                pecas_do_jogo[i].status = jog;
-                i = 28;
+//Funcao que identifica o index da maior peca
+int identifica_index_da_maior_peca(Peca pecas_do_jogo[28]){
+
+    int i, indice = 0, maior = 0;
+
+    for(i = 0; i < 12; i++){
+        if(pecas_do_jogo[i].valores[0] == pecas_do_jogo[i].valores[1]){
+            if (maior < pecas_do_jogo[i].valores[0]){
+                maior = pecas_do_jogo[i].valores[0];
+                indice = i;
             }
         }
-        printf("\n3 peças compradas com sucesso para %c.\n\n", jog);
-    } while ((jog == "J1") || (jog == "J2"));
-
-    //Necessário fazer adaptação: reentrada caso o usuário não digite j1 ou j2.
-}
-//to-do analisar estrutura de primeira jogada
-//como fazer para identificar os maiores valores e onde estao
-char primeira_jogada(Peca pecas_do_jogo[28], Mesa estrutura_mesa[28])
-{
-    int identidade;
-    for (int i = 0; i < 27; i++)
-    {
-        if((pecas_do_jogo[i].valores[0] == 6) && (pecas_do_jogo[i].valores[1] == 6))
-            {
-                //to-do analisar atribuicoes
-                estrutura_mesa[14].valores[0] = 6;
-                estrutura_mesa[14].valores[1] = 6;
-                pecas_do_jogo[i].status = identidade;
-                pecas_do_jogo[i].status = "NULL";
-            }
     }
-    mostra_mesa(estrutura_mesa);
-    return identidade;
+    return indice;
 }
 
-//Funcao que inverte a peca do jogo
-void giragira(int id, Peca pecas_do_jogo[28])
-{
+//Funcao responsavel por executar a primeira jogada
+void joga_primeira_peca(Mesa mesa_do_jogo, int indice_da_peca){
+
+    char jogador_da_vez;
+
+    jogador_da_vez = mesa_do_jogo.peca[indice_da_peca].status;
+    mesa_do_jopo.pecas[indice_da_peca].status = 'M';
+    mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas] = mesa_do_jogo.pecas[indice_da_peca];
+    quantidade_de_pecas_jogadas++;
+    mesa_do_jogo.valores[0] = mesa_do_jogo.pecas[indice_da_peca].valores[0];
+    mesa_do_jogo.valores[1] = mesa_do_jogo.pecas[indice_da_peca].valores[1];
+
+    passa_a_jogada(mesa_do_jogo, jogador_da_vez)
+}
+
+//Esssa funcao tem um corpo maior pois cuida da validacao e caso exista a necessidade
+//de inversao da peca, ela fara isso automaticamente
+void joga_peca(Mesa mesa_do_jogo, int indice_da_peca){
+
+    lado_esquerdo_da_mesa = mesa_do_jogo.valores[0];
+    lado_direito_da_mesa = mesa_do_jogo.valores[1];
+
     int aux;
-    pecas_do_jogo[id].valores[0] = aux;
-    pecas_do_jogo[id].valores[1] = pecas_do_jogo[id].valores[0];
-    aux = pecas_do_jogo[id].valores[1];
+
+    if(lado_esquerdo_da_mesa == mesa_do_jogo.pecas[indice_da_peca].valores[0]){
+        
+        //swap que inverte a peca
+        aux = mesa_do_jogo.pecas[indice_da_peca].valores[0];
+        mesa_do_jogo.pecas[indice_da_peca].valores[0] = mesa_do_jogo.pecas[indice_da_peca].valores[1];
+        mesa_do_jogo.pecas[indice_da_peca].valores[1] = aux;
+        
+        //todo funcao que insere no comeco
+        insere_peca_no_comeco(mesa_do_jogo, indice_da_peca);
+    
+    } else if (lado_esquerdo_da_mesa == mesa_do_jogo.pecas[indice_da_peca].valores[1]){
+        insere_peca_no_comeco(mesa_do_jogo, indice_da_peca);
+    
+    } else if (lado_direito_da_mesa == mesa_do.mesa_do_jogo.pecas[indice_da_peca].valores[0]){
+        insere_peca_no_final(mesa_do_jogo, indice_da_peca);
+    
+    }else if (lado_direito_da_mesa == mesa_do.mesa_do_jogo.pecas[indice_da_peca].valores[1]){
+
+        //swap que inverte a peca
+        aux = mesa_do_jogo.pecas[indice_da_peca].valores[1];
+        mesa_do_jogo.pecas[indice_da_peca].valores[1] = mesa_do_jogo.pecas[indice_da_peca].valores[0];
+        mesa_do_jogo.pecas[indice_da_peca].valores[0] = aux;
+
+        insere_peca_no_final(mesa_do_jogo, indice_da_peca);
+    } 
 }
 
-//Função que dá fluidez ao jogo
-void jogada()
-{
-    int idjogador, op, indexpeca, simnao; 
-    char indexmesa;
-    idjogador = primeira_jogada(pecas_do_jogo, estrutura_mesa);
-    printf("A primeira jogada foi do jogador %d.\n", idjogador);
-    
-    /*
-    if (idjogador == 1)
-    {
-        apresenta_jogador_2(pecas_do_jogo);
+void insere_peca_no_comeco(Mesa mesa_do_jogo, int indice_da_peca){
+
+    Peca pecas_aux;
+    int i;
+
+    //altera status da peca que vai pra mesa 
+    mesa_do_jogo.pecas[indice_da_peca].status = 'M';
+    pecas_aux[0] = mesa_do_jogo.pecas[indice_da_peca];
+
+    for (i = 1; i < 28; i++){
+        pecas_aux[i] = mesa_do_jogo.pecas_na_mesa[i];
     }
-    else
-    {
-        apresenta_jogador_1(pecas_do_jogo);
+
+    //Mesa aponta para o novo array atualizado
+    mesa_do_jogo.pecas_na_mesa = *pecas_aux;
+
+    //itera a quantidade de pecas novamente
+    quantidade_de_pecas_jogadas++;
+
+}
+
+void insere_peca_no_final(Mesa mesa_do_jogo, int indice_da_peca){
+
+    //insere nova peca no vetor de pecas_na_mesa, que por sua vez
+    //é um atribudo da estrutura mesa_do_jogo
+    mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas] = mesa_do_jogo.pecas[indice_da_peca];
+
+    //itera a quantidade de pecas na mesa
+    quantidade_de_pecas_jogadas++;
+}
+
+//funcao que passa a vez de jogada 
+void passa_a_jogada(Mesa mesa_do_jogo, char jogador_da_vez){
+
+    if(mesa_do_jogo.status == jogador_da_vez){
+        mesa_do_jogo.status = '1';
+    }else {
+        mesa_do_jogo.status = jogador_da_vez;
     }
-    */
+}
 
-    do
-    {
-        //to-do mover essa instrucao para a view
-        //to-do criar logica de encaixe de peca na mesa
-        //to-do criar logica generica para fluxo de selecao de jogador durante a partida (D e E)
+bool peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada){
 
-        printf("1 - Jogar\n");
-        printf("2 - Comprar\n");
-        printf("3 - Passar\n");
-        printf("0 - Sair\n");
-        printf("Digite sua opção: ");
-        scanf("%d\n", &op);
+    if(mesa_do_jogo.valores[0] ==  mesa_do_jogo.pecas[indice_peca_comprada].valores[0] ||
+       mesa_do_jogo.valores[0] == mesa_do_jogo.pecas[indice_peca_comprada].valores[1] ||
+       mesa_do_jogo.valores[1] == mesa_do_jogo.pecas[indice_peca_comprada].valores[0] ||
+       mesa_do_jogo.valores[1] == mesa_do_jogo.pecas[indice_peca_comprada].valores[1]){
+           return true
+       }
+    return false
+}
 
-        switch (op)
-        {
-        case 1:
-            printf("Opção 1: jogar!\n");
-            mostra_mesa(estrutura_mesa);
-            if (idjogador == 1)
-            {
-                printf("Peças do jogador 2:\n");
-                apresenta_jogador_2(pecas_do_jogo);
-                printf("Escolha a peça para jogar: \n");
-                scanf("%d\n", &indexpeca);
-                //to-do pensar na logica para mesa virar peca automaticamente
-                printf("Deseja girar a peca? (S/N): \n");
-                scanf("%d\n", &simnao);
-                simnao = toupper(simnao);
+//funcao que realiza a compra de pecas
+bool compra_peca (Mesa mesa_do_jogo){
 
-                if (simnao == 'S')
-                {
-                    giragira(indexpeca, pecas_do_jogo);
-                }
-                
-                //to-do estudar maneira de identificar em qual extremidade a peca sera inserida de maneira automatica
-                //to-do criar logica que identificar a necessidade de inverter a peca automaticamente
-                printf("Escolha o lado da mesa (D ou E): \n");
-                scanf("%c\n", &indexmesa);
-                indexmesa = toupper(indexmesa);
-                
-                if (indexmesa == 'D')
-                {
-                    estrutura_mesa[indexpeca].valores[0] = pecas_do_jogo[indexpeca].valores[0];
-                    estrutura_mesa[indexpeca].valores[1] = pecas_do_jogo[indexpeca].valores[1];
-                    mostra_mesa(estrutura_mesa);
-                }
-                if (indexmesa == 'E')
-                {
-                    estrutura_mesa[indexpeca].valores[0] = pecas_do_jogo[indexpeca].valores[0];
-                    estrutura_mesa[indexpeca].valores[1] = pecas_do_jogo[indexpeca].valores[1];
-                    mostra_mesa(estrutura_mesa);
-                }
-                
-            }
-            else
-            {
-                printf("Peças do jogador 1:\n");
-                apresenta_jogador_1(pecas_do_jogo);
-                printf("Escolha a peça para jogar: \n");
-                scanf("%d\n", &indexpeca);
-                printf("Deseja girar a peca? (S/N): \n");
-                scanf("%d\n", &simnao);
-                simnao = toupper(simnao);
-                if (simnao == 'S')
-                {
-                    giragira(indexpeca, pecas_do_jogo);
-                }
-                printf("Escolha o lado da mesa (D ou E): \n");
-                scanf("%c\n", &indexmesa);
-                indexmesa = toupper(indexmesa);
+    int i;
+    bool sem_pecas_para_jogar = true;
 
-                if (indexmesa == 'D')
-                {
-                    estrutura_mesa[indexpeca].valores[0] = pecas_do_jogo[indexpeca].valores[0];
-                    estrutura_mesa[indexpeca].valores[1] = pecas_do_jogo[indexpeca].valores[1];
-                    mostra_mesa(estrutura_mesa);
-                }
-                if (indexmesa == 'E')
-                {
-                    estrutura_mesa[indexpeca].valores[0] = pecas_do_jogo[indexpeca].valores[0];
-                    estrutura_mesa[indexpeca].valores[1] = pecas_do_jogo[indexpeca].valores[1];
-                    mostra_mesa(estrutura_mesa);
-                }
+    for (i = 0; i < 28; i++){
+        if(mesa_do_jogo.pecas[i].status == 'N'){
+            mesa_do_jogo.pecas[i].status = mesa_do_jogo.status;
+            if(peca_valida(mesa_do_jogo.pecas[i])){
+                joga_peca(mesa_do_jogo, i);
+                verificacao_de_batida(Mesa mesa_do_jogo);
+                passa_a_jogada(mesa_do_jogo, mesa_do_jogo.status)
+                sem_pecas_para_jogar = false;
+                return sem_pecas_para_jogar;
             }
 
-            break;
-    
-        case 2:
-            comprar_pecas(pecas_do_jogo);
-            break;
-    
-        case 3:
-            /* code */
-            break;
-    
-        default:
-            exit(0);
         }
+    }
+    return sem_pecas_para_jogar;
+}
 
-    } while (op != 0);
-    
-    
+
+//funcao que eh executada ao final de cada jogada para saber se ha algum vencedor
+void verificacao_de_batida(Mesa mesa_do_jogo){
+
+    int i;
+
+    for (i = 0; i < 28; i++){
+        if(mesa_do_jogo.pecas[i] == mesa_do_jogo.status){
+            acaba_jogo();
+        }
+    }
+}
+
+
+//funcao que eh executada antes uma compra de peca para verificar se existe alguma peca possivel de ser jogada
+bool verificacao_de_empate(Mesa mesa_do_jogo){
+
+
+}
+
+//funcao que eh executada antes da jogada de cada jogador durante o jogo
+bool verificacao_necessidade_de_compra(Mesa mesa_do_jogo){
+
+    int i;
+
+    for (i = 0; i < 28; i++){
+        if(mesa_do_jogo.pecas[i].status == mesa_do_jogo.status){
+            if(peca_valida(mesa_do_jogo, mesa_do_jogo.pecas[i])){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+//funcao que administra o fim do jogo
+//permite que o usuario salve o resultado
+//feche o programa ou volte para o menu principal
+void acaba_jogo(){
+    menu_do_fim_do_jogo();
 }

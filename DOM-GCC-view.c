@@ -1,4 +1,48 @@
-#include "DOM-GCC-model.c"
+//Função que apresenta o menu principal
+int apresenta_menu_principal(){
+
+    int opcao = 0;
+
+    puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
+    puts("Escolha uma opcao abaixo:\n");
+    puts("1 - Iniciar novo Jogo");
+    puts("2 - Continuar a Jogar");
+    puts("3 - Salvar jogo");
+    puts("4 - Carregar Jogo");
+    puts("5 - Regras do Jogo");
+    puts("6 - Sair do jogo\n");
+
+    scanf("%d", &opcao);
+    return opcao;
+}
+
+//Função que apresenta o menu onde eh informada a quantidade de jogadores que participarao da partida
+int apresenta_menu_quantidade_jogadores(){
+
+    int opcao = 0;
+
+    puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
+    puts("Selecione a quantidade de jogadores: [1] [2]\n");
+
+    scanf("%d", &opcao),
+    return opcao;
+}
+
+//Função que apresenta o menu de opcao disponiveis a cada jogada de cada jogador
+int apresenta_menu_de_jogada(){
+
+    int opcao = 0;
+
+    puts("--- JOGO DE DOMINO DO GRUPO GCC ---\n\n");
+    puts("Escolha uma opcao abaixo:\n");
+    puts("1 - Mesa do Domino");
+    puts("2 - Ver suas pecas");
+    puts("3 - Comprar peca");
+    puts("4 - Jogar");
+    puts("Voltar ao Menu Principal");
+}
+
+
 //Função de apresentação das peças
 void mostra_pecas(Peca pecas_do_jogo[28])
 {
@@ -8,6 +52,7 @@ void mostra_pecas(Peca pecas_do_jogo[28])
     }
 }
 
+//to-do reavaliar funcao
 //Função de apresentação da mesa
 void mostra_mesa(Mesa estrutura_mesa[28])
 {
@@ -15,30 +60,12 @@ void mostra_mesa(Mesa estrutura_mesa[28])
     printf("M E S A:\n");
     printf("__________________\n");
     for (int i = 0; i < 28; i++) {
-        if (estrutura_mesa[i].status == 'NULL') 
+        if (estrutura_mesa[i].status == 'N') 
             continue;
         else
-            printf("[%d | %d]       ", pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
+            printf("[%d | %d]       ", estrutura_mesa[i].valores[0], estrutura_mesa[i].valores[1]);
     }
     printf("\n__________________\n");
-}
-
-//Função do menu principal
-int apresenta_menu(){
-
-    int opcao = 0;
-
-        puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
-        puts("Escolha uma opcao abaixo:\n");
-        puts("1 - Mostrar pecas do jogo");
-        puts("2 - Embaralhar pecas do jogo");
-        puts("3 - Reorganizar pecas para novo jogo");
-        puts("4 - Iniciar jogo (2 jogadores)");
-        puts("5 - Iniciar jogo (contra o computador)");
-        puts("6 - Sair do jogo\n");
-
-        scanf("%d", &opcao);
-        return opcao;
 }
 
 //!! !! ENCONTRAR JEITO DE ABSTRAIR O USO DAS DUAS SEGUINTES FUNÇÕES !! !!
@@ -50,7 +77,7 @@ void apresenta_jogador_1(Peca pecas_do_jogo[28])
     printf("Peças do jogador 1: ");
     for (int i = 0; i < 27; i++)
     {
-        if(pecas_do_jogo[i].status == 'J1')
+        if(pecas_do_jogo[i].status == '1')
         {
             printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
         }
@@ -64,10 +91,17 @@ void apresenta_jogador_2(Peca pecas_do_jogo[28])
     printf("Peças do jogador 2: ");
     for (int i = 0; i < 27; i++)
     {
-        if(pecas_do_jogo[i].status == 'J2')
+        if(pecas_do_jogo[i].status == '2')
         {
             printf("&d.[%d | %d]        ", i, pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
         }
     }
     printf("\n\n");
+}
+
+
+void menu_do_fim_do_jogo(){
+
+    //TODO
+
 }
