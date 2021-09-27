@@ -13,6 +13,7 @@ int apresenta_menu_principal(){
     puts("6 - Sair do jogo\n");
 
     scanf("%d", &opcao);
+
     return opcao;
 }
 
@@ -29,41 +30,51 @@ int apresenta_menu_quantidade_jogadores(){
 }
 
 //Função que apresenta o menu de opcao disponiveis a cada jogada de cada jogador
-int apresenta_menu_de_jogada(){
+int apresenta_menu_de_jogada(char jogador_da_vez){
 
     int opcao = 0;
 
-    puts("--- JOGO DE DOMINO DO GRUPO GCC ---\n\n");
+    if(jogador_da_vez == '1'){
+        puts("Vez do jogador 1");
+    }else if(jogador_da_vez == '2'){
+        puts("Vez do joadpr 2");
+    }else {
+        puts("Vez do computador");
+    }
+
     puts("Escolha uma opcao abaixo:\n");
     puts("1 - Mesa do Domino");
     puts("2 - Ver suas pecas");
     puts("3 - Comprar peca");
     puts("4 - Jogar");
     puts("Voltar ao Menu Principal");
+    
+    scanf("%d", &opcao);
+    return opcao;
 }
 
 
 //Função de apresentação das peças
-void mostra_pecas(Peca pecas_do_jogo[28])
+void mostra_pecas(Peca *pecas_do_jogo)
 {
     for (int i = 0; i < 28; i++)
     {
-        printf("[%d | %d]\n", pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
+        printf("[%d | %d]", pecas_do_jogo[i].valores[0], pecas_do_jogo[i].valores[1]);
     }
 }
 
 //to-do reavaliar funcao
 //Função de apresentação da mesa
-void mostra_mesa(Mesa estrutura_mesa[28])
+void mostra_mesa(Mesa mesa_do_jogo, int quantidade_de_pecas_jogadas)
 {
+    int i = 0;
+
     printf("__________________\n");
     printf("M E S A:\n");
     printf("__________________\n");
-    for (int i = 0; i < 28; i++) {
-        if (estrutura_mesa[i].status == 'N') 
-            continue;
-        else
-            printf("[%d | %d]       ", estrutura_mesa[i].valores[0], estrutura_mesa[i].valores[1]);
+
+    for (i = 0; i < quantidade_de_pecas_jogadas; i++){
+        printf("[%d|%d]", mesa_do_jogo.pecas_na_mesa[i].valores[0], mesa_do_jogo.pecas_na_mesa[i].valores[1]);
     }
     printf("\n__________________\n");
 }
@@ -106,6 +117,11 @@ void menu_do_fim_do_jogo(){
 }
 
 void exibe_pontucao_dos_melhores(){
+
+    //TODO
+}
+
+void exibe_regras_do_jogo(){
 
     //TODO
 }

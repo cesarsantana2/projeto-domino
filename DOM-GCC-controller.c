@@ -33,31 +33,30 @@ int peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada);
 //Funcao que chama o menu principal
 void entrypoint(){
     
+    printf("CHEGOU PELO MENOS AQUI");
+
     int opcao = 0;
     while(opcao != 6){
         
-        apresenta_menu_principal();
-        scanf("%c", opcao);
-
-        // opcao = apresenta_menu_principal();
+        opcao = apresenta_menu_principal();
 
         switch (opcao)
         {
         case 1:
             novo_jogo();
-            break;
+            continue;
         case 2:
             printf("Continuar a Jogar -- Esta Funcao sera implementada futuramente");
-            break;
+            continue;
         case 3:
             printf("Salvar Jogo -- Esta Funcao sera implementada futuramente");
-            break;
+            continue;
         case 4:
             printf("Carregar Jogo -- Esta Funcao sera implementada futuramente");
-            break;
+            continue;
         case 5:
-            printf("Regras do Jogo -- Esta Funcao sera implementada futuramente");
-            break;
+             exibe_regras_do_jogo();
+            continue;
         default:
             exit(0);
         }
@@ -79,6 +78,8 @@ void novo_jogo(){
 
 //Funcao que cuida do jogo em si
 void comeca_jogo(char segundo_jogador){
+    
+    int opcao_fluxo;
 
     //Cria mesa do jogo
     Mesa mesa_do_jogo;
@@ -86,7 +87,7 @@ void comeca_jogo(char segundo_jogador){
 
     //Embaralha as pecas da mesa
     embaralha_conjunto_de_pecas(mesa_do_jogo.pecas);
-    
+
     //Distribui as pecas do jogo
     distribui_pecas(mesa_do_jogo.pecas, segundo_jogador);
 
@@ -94,13 +95,22 @@ void comeca_jogo(char segundo_jogador){
     indice_primeira_peca = identifica_index_da_maior_peca(mesa_do_jogo.pecas);
     joga_primeira_peca(mesa_do_jogo, indice_primeira_peca);
 
+    do{
+
+    opcao_fluxo = apresenta_menu_de_jogada(mesa_do_jogo.status);
+
+    } while (verificacao_de_empate(mesa_do_jogo) != 1);
+
+
+
+
     
     
 }
 
 
 //Funcao que cria um conjunto de peças ordenadas de maneira crescente
-void cria_conjunto_de_pecas(Peca pecas_do_jogo[28]){
+void cria_conjunto_de_pecas(Peca *pecas_do_jogo){
     int i = 0;
     int j = 0;
     int count = 0;
@@ -116,7 +126,7 @@ void cria_conjunto_de_pecas(Peca pecas_do_jogo[28]){
 }
 
 //Função que embaralha as pecas de um conjunto
-void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]){
+void embaralha_conjunto_de_pecas(Peca *pecas_do_jogo){
     Peca pecas_aux[28];
 
       for (int i = 0; i < 28; i++){
@@ -131,7 +141,7 @@ void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]){
 }
 
 //Função que reorganiza as pecas de um conjunto
-void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]){
+void reorganiza_conjunto_de_pecas(Peca *pecas_do_jogo){
     
     int i;
     Peca pecas_aux[28];
@@ -143,7 +153,7 @@ void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]){
 }
 
 //Função que distribui as pecas entre os jogadores
-void distribui_pecas(Peca pecas_do_jogo[28], char segundo_jogador){
+void distribui_pecas(Peca *pecas_do_jogo, char segundo_jogador){
 
     int i;
 
@@ -159,7 +169,7 @@ void distribui_pecas(Peca pecas_do_jogo[28], char segundo_jogador){
 }
 
 //Funcao que identifica o index da maior peca
-int identifica_index_da_maior_peca(Peca pecas_do_jogo[28]){
+int identifica_index_da_maior_peca(Peca *pecas_do_jogo){
 
     int i, indice = 0, maior = 0;
 
@@ -181,10 +191,13 @@ void joga_primeira_peca(Mesa mesa_do_jogo, int indice_da_peca){
 
     jogador_da_vez = mesa_do_jogo.pecas[indice_da_peca].status;
     mesa_do_jogo.pecas[indice_da_peca].status = 'M';
-    mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas] = mesa_do_jogo.pecas[indice_da_peca];
+    mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas].valores[0] = mesa_do_jogo.pecas[indice_da_peca].valores[0];
+    mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas].valores[1] = mesa_do_jogo.pecas[indice_da_peca].valores[1];
     quantidade_de_pecas_jogadas++;
     mesa_do_jogo.valores[0] = mesa_do_jogo.pecas[indice_da_peca].valores[0];
     mesa_do_jogo.valores[1] = mesa_do_jogo.pecas[indice_da_peca].valores[1];
+
+    mostra_mesa(mesa_do_jogo, quantidade_de_pecas_jogadas);
 
     passa_a_jogada(mesa_do_jogo, jogador_da_vez);
 }
