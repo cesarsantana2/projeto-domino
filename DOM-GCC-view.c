@@ -24,7 +24,7 @@ int apresenta_menu_quantidade_jogadores(){
     puts("--- BEM VINDO AO JOGO DE DOMINO DO GRUPO GCC ---\n\n");
     puts("Selecione a quantidade de jogadores: [1] [2]\n");
 
-    scanf("%d", &opcao),
+    scanf("%d", &opcao);
     return opcao;
 }
 
@@ -99,9 +99,13 @@ void apresenta_jogador_2(Peca pecas_do_jogo[28])
     printf("\n\n");
 }
 
-
 void menu_do_fim_do_jogo(){
 
     //TODO
 
+}
+
+void exibe_pontucao_dos_melhores(){
+
+    //TODO
 }

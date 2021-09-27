@@ -5,24 +5,28 @@
 //Variáveis globais
 int quantidade_de_jogadores = 0;
 int quantidade_de_pecas_jogadas = 0;
+int indice_primeira_peca;
 
 //Prototype das funcoes do controller
-void cria_conjunto_de_pecas (Peca pecas_do_jogo[28]);
-void embaralha_conjunto_de_pecas(Peca pecas_do_jogo[28]);
-void reorganiza_conjunto_de_pecas(Peca pecas_do_jogo[28]);
-void distribui_pecas(Peca pecas_do_jogo[28]);
-void cria_mesa_do_jogo(Mesa estrutura_mesa[28]);
+int identifica_index_da_maior_peca(Peca *pecas_do_jogo);
+void cria_conjunto_de_pecas (Peca *pecas_do_jogo);
+void embaralha_conjunto_de_pecas(Peca *pecas_do_jogo);
+void reorganiza_conjunto_de_pecas(Peca *pecas_do_jogo);
+void distribui_pecas(Peca *pecas_do_jogo, char segundo_jogador);
+// void cria_mesa_do_jogo(Mesa estrutura_mesa[28]);
 void novo_jogo();
 void comeca_jogo(char a);
-void joga_primeira_peca(Peca pecas_do_jogo[28], int indice_da_peca);
+void joga_primeira_peca(Mesa mesa_do_jogo, int indice_da_peca);
 void joga_peca(Mesa mesa_do_jogo, int indice_da_peca);
 void insere_peca_no_comeco(Mesa mesa_do_jogo, int indice_da_peca);
+void insere_peca_no_final(Mesa mesa_do_jogo, int indice_da_peca);
 void passa_a_jogada(Mesa mesa_do_jogo, char segundo_jogador);
-void compra_peca (Mesa mesa_do_jogo);
-bool verificacao_de_batida(Mesa mesa_do_jogo);
-bool verificacao_de_empate(Mesa mesa_do_jogo);
-bool verificacao_necessidade_de_compra(Mesa mesa_do_jogo);
-bool peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada);
+void verificacao_de_batida(Mesa mesa_do_jogo);
+void acaba_jogo();
+int compra_peca (Mesa mesa_do_jogo);
+int verificacao_de_empate(Mesa mesa_do_jogo);
+int verificacao_necessidade_de_compra(Mesa mesa_do_jogo, char jogador);
+int peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada);
 
 
 
@@ -32,7 +36,10 @@ void entrypoint(){
     int opcao = 0;
     while(opcao != 6){
         
-        opcao = apresenta_menu_principal();
+        apresenta_menu_principal();
+        scanf("%c", opcao);
+
+        // opcao = apresenta_menu_principal();
 
         switch (opcao)
         {
@@ -40,16 +47,16 @@ void entrypoint(){
             novo_jogo();
             break;
         case 2:
-            print("Continuar a Jogar -- Esta Funcao sera implementada futuramente");
+            printf("Continuar a Jogar -- Esta Funcao sera implementada futuramente");
             break;
         case 3:
-            print("Salvar Jogo -- Esta Funcao sera implementada futuramente");
+            printf("Salvar Jogo -- Esta Funcao sera implementada futuramente");
             break;
         case 4:
-            print("Carregar Jogo -- Esta Funcao sera implementada futuramente");
+            printf("Carregar Jogo -- Esta Funcao sera implementada futuramente");
             break;
         case 5:
-            print("Regras do Jogo -- Esta Funcao sera implementada futuramente");
+            printf("Regras do Jogo -- Esta Funcao sera implementada futuramente");
             break;
         default:
             exit(0);
@@ -75,6 +82,7 @@ void comeca_jogo(char segundo_jogador){
 
     //Cria mesa do jogo
     Mesa mesa_do_jogo;
+    cria_conjunto_de_pecas(mesa_do_jogo.pecas);
 
     //Embaralha as pecas da mesa
     embaralha_conjunto_de_pecas(mesa_do_jogo.pecas);
@@ -145,7 +153,7 @@ void distribui_pecas(Peca pecas_do_jogo[28], char segundo_jogador){
         }else if(i > 5 && i < 12 ){
             pecas_do_jogo[i].status = segundo_jogador;
         }else{
-            pecas_do_jogo[i].status = 'N'
+            pecas_do_jogo[i].status = 'N';
         }
     }
 }
@@ -171,19 +179,21 @@ void joga_primeira_peca(Mesa mesa_do_jogo, int indice_da_peca){
 
     char jogador_da_vez;
 
-    jogador_da_vez = mesa_do_jogo.peca[indice_da_peca].status;
-    mesa_do_jopo.pecas[indice_da_peca].status = 'M';
+    jogador_da_vez = mesa_do_jogo.pecas[indice_da_peca].status;
+    mesa_do_jogo.pecas[indice_da_peca].status = 'M';
     mesa_do_jogo.pecas_na_mesa[quantidade_de_pecas_jogadas] = mesa_do_jogo.pecas[indice_da_peca];
     quantidade_de_pecas_jogadas++;
     mesa_do_jogo.valores[0] = mesa_do_jogo.pecas[indice_da_peca].valores[0];
     mesa_do_jogo.valores[1] = mesa_do_jogo.pecas[indice_da_peca].valores[1];
 
-    passa_a_jogada(mesa_do_jogo, jogador_da_vez)
+    passa_a_jogada(mesa_do_jogo, jogador_da_vez);
 }
 
 //Esssa funcao tem um corpo maior pois cuida da validacao e caso exista a necessidade
 //de inversao da peca, ela fara isso automaticamente
 void joga_peca(Mesa mesa_do_jogo, int indice_da_peca){
+    
+    int lado_esquerdo_da_mesa, lado_direito_da_mesa;
 
     lado_esquerdo_da_mesa = mesa_do_jogo.valores[0];
     lado_direito_da_mesa = mesa_do_jogo.valores[1];
@@ -203,10 +213,10 @@ void joga_peca(Mesa mesa_do_jogo, int indice_da_peca){
     } else if (lado_esquerdo_da_mesa == mesa_do_jogo.pecas[indice_da_peca].valores[1]){
         insere_peca_no_comeco(mesa_do_jogo, indice_da_peca);
     
-    } else if (lado_direito_da_mesa == mesa_do.mesa_do_jogo.pecas[indice_da_peca].valores[0]){
+    } else if (lado_direito_da_mesa == mesa_do_jogo.pecas[indice_da_peca].valores[0]){
         insere_peca_no_final(mesa_do_jogo, indice_da_peca);
     
-    }else if (lado_direito_da_mesa == mesa_do.mesa_do_jogo.pecas[indice_da_peca].valores[1]){
+    }else if (lado_direito_da_mesa == mesa_do_jogo.pecas[indice_da_peca].valores[1]){
 
         //swap que inverte a peca
         aux = mesa_do_jogo.pecas[indice_da_peca].valores[1];
@@ -219,7 +229,7 @@ void joga_peca(Mesa mesa_do_jogo, int indice_da_peca){
 
 void insere_peca_no_comeco(Mesa mesa_do_jogo, int indice_da_peca){
 
-    Peca pecas_aux;
+    Peca pecas_aux[28];
     int i;
 
     //altera status da peca que vai pra mesa 
@@ -231,7 +241,7 @@ void insere_peca_no_comeco(Mesa mesa_do_jogo, int indice_da_peca){
     }
 
     //Mesa aponta para o novo array atualizado
-    mesa_do_jogo.pecas_na_mesa = *pecas_aux;
+    *mesa_do_jogo.pecas_na_mesa = *pecas_aux;
 
     //itera a quantidade de pecas novamente
     quantidade_de_pecas_jogadas++;
@@ -258,37 +268,34 @@ void passa_a_jogada(Mesa mesa_do_jogo, char jogador_da_vez){
     }
 }
 
-bool peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada){
+int peca_valida(Mesa mesa_do_jogo, int indice_peca_comprada){
 
     if(mesa_do_jogo.valores[0] ==  mesa_do_jogo.pecas[indice_peca_comprada].valores[0] ||
        mesa_do_jogo.valores[0] == mesa_do_jogo.pecas[indice_peca_comprada].valores[1] ||
        mesa_do_jogo.valores[1] == mesa_do_jogo.pecas[indice_peca_comprada].valores[0] ||
        mesa_do_jogo.valores[1] == mesa_do_jogo.pecas[indice_peca_comprada].valores[1]){
-           return true
+           return 1;
        }
-    return false
+    return 0;
 }
 
 //funcao que realiza a compra de pecas
-bool compra_peca (Mesa mesa_do_jogo){
+int compra_peca (Mesa mesa_do_jogo){
 
     int i;
-    bool sem_pecas_para_jogar = true;
 
     for (i = 0; i < 28; i++){
         if(mesa_do_jogo.pecas[i].status == 'N'){
             mesa_do_jogo.pecas[i].status = mesa_do_jogo.status;
-            if(peca_valida(mesa_do_jogo.pecas[i])){
+            if(peca_valida(mesa_do_jogo, i)){
                 joga_peca(mesa_do_jogo, i);
-                verificacao_de_batida(Mesa mesa_do_jogo);
-                passa_a_jogada(mesa_do_jogo, mesa_do_jogo.status)
-                sem_pecas_para_jogar = false;
-                return sem_pecas_para_jogar;
+                verificacao_de_batida(mesa_do_jogo);
+                passa_a_jogada(mesa_do_jogo, mesa_do_jogo.status);
+                return 0;
             }
-
         }
     }
-    return sem_pecas_para_jogar;
+    return 1;
 }
 
 
@@ -298,32 +305,48 @@ void verificacao_de_batida(Mesa mesa_do_jogo){
     int i;
 
     for (i = 0; i < 28; i++){
-        if(mesa_do_jogo.pecas[i] == mesa_do_jogo.status){
-            acaba_jogo();
+        if(mesa_do_jogo.pecas[i].status == mesa_do_jogo.status){
+            break;
         }
     }
+    acaba_jogo();
 }
 
 
 //funcao que eh executada antes uma compra de peca para verificar se existe alguma peca possivel de ser jogada
-bool verificacao_de_empate(Mesa mesa_do_jogo){
+int verificacao_de_empate(Mesa mesa_do_jogo){
 
+    char segundo_jogador;
+    int verificao_jogador_um, verificao_jogador_dois;
 
+    if(quantidade_de_jogadores == 1){
+        segundo_jogador = 'C';
+    }else{
+        segundo_jogador = '2';
+    }
+
+    verificao_jogador_um = verificacao_necessidade_de_compra(mesa_do_jogo, '1');
+    verificao_jogador_dois = verificacao_necessidade_de_compra(mesa_do_jogo, segundo_jogador);
+
+    if(verificao_jogador_um == 1 && verificao_jogador_dois == 1){
+        return 1;
+    }
+    return 0;
 }
 
 //funcao que eh executada antes da jogada de cada jogador durante o jogo
-bool verificacao_necessidade_de_compra(Mesa mesa_do_jogo){
+int verificacao_necessidade_de_compra(Mesa mesa_do_jogo, char jogador){
 
     int i;
 
     for (i = 0; i < 28; i++){
-        if(mesa_do_jogo.pecas[i].status == mesa_do_jogo.status){
-            if(peca_valida(mesa_do_jogo, mesa_do_jogo.pecas[i])){
-                return false;
+        if(mesa_do_jogo.pecas[i].status == jogador){
+            if(peca_valida(mesa_do_jogo, i)){
+                return 0;
             }
         }
     }
-    return true;
+    return 1;
 }
 
 //funcao que administra o fim do jogo
@@ -332,3 +355,14 @@ bool verificacao_necessidade_de_compra(Mesa mesa_do_jogo){
 void acaba_jogo(){
     menu_do_fim_do_jogo();
 }
+
+
+////Função que salvo o estado do jogo
+// void salva_jogo(){
+//     //TO-DO
+// }
+
+// //Função que carrega algum jogo salvo
+// void carrega_jogo(){
+//     //TO-DO
+// }
